@@ -1,0 +1,8 @@
+mplfinance==0.12.7a17
+optuna==2.7.0
+pyfiglet==0.8.post1
+schedule==1.1.0
+stable-baselines==2.10.2
+stable-baselines3==1.0
+termcolor==1.1.0
+tensorflow==1.15
