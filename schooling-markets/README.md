@@ -4,23 +4,11 @@
 docker build --tag school_markets . 
 ```
 
-
 ## Running container-volume
 
 ```bash
-docker run -d \
-  --rm \
-  --name rpp_container \
-  -v $(pwd)/notebooks:/home/shared_volume\
-  -p 8888:8888 \
-  -e JUPYTER_TOKEN=letmein \
-  -e GRANT_SUDO=yes \
-  --user root \
-  rpp
-```
-
-```bash
 docker run -d  \
+    --rm \
     --name sm_container \
     -e USER=cie \
     -e PASSWORD=smarkets \
@@ -32,5 +20,5 @@ docker run -d  \
 ## Stop container
 
 ```bash
-docker stop rpp_container 
+docker stop school_markets 
 ```
