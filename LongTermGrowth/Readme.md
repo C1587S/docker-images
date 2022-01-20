@@ -38,3 +38,11 @@ Running `longtermgrowth_v1` docker image in a docker container:
 ```
 docker run --gpus all --rm -it -p 8787:8787 -p 8888:8888 --name $CONTAINER_NAME -v $PWD:/home/shared_volume $IMAGE_NAME_V1
 ```
+
+Running Jupyterlab:
+
+```
+run_jpt
+```
+
+Then copy and paste in a browser the link provided.
