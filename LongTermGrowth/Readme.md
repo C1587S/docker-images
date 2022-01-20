@@ -45,4 +45,10 @@ Running Jupyterlab:
 run_jpt
 ```
 
+OR:
+
+```
+jupyter lab --debug --ip=0.0.0.0 --NotebookApp.token=""  --NotebookApp.password=""
+```
+
 Then copy and paste in a browser the link provided.
