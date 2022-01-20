@@ -1,0 +1,69 @@
+FROM nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
+
+ENV TIMEZONE America/Bogota
+ENV JUPYTERLAB_VERSION 3.1.0
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
+ENV DEBIAN_FRONTEND noninteractive
+ENV PIP_PACKAGES="numpy pandas spacy unidecode requests transformers"
+ENV DEB_PACKAGES="software-properties-common wget make gcc git swig"
+
+USER root
+
+RUN apt-get update && export $DEBIAN_FRONTEND && \
+    echo $TIMEZONE > /etc/timezone && apt-get install -y tzdata
+
+# Install essentials
+RUN apt-get update && apt-get install -y $DEB_PACKAGES
+
+# Install python
+RUN apt-get install -y python3.7 \
+    python3-pip \
+    python-setuptools
+
+RUN pip3 install --upgrade pip
+
+RUN pip3 install $PIP_PACKAGES
+
+# Additionals for NLP
+RUN python3 -m spacy download en_core_web_sm
+
+WORKDIR /home/
+
+# Install End-to-End Grill
+RUN git clone https://github.com/iain-mackie/end-to-end-grill
+WORKDIR /home/end-to-end-grill/
+#RUN pip3 install -r requirements.txt
+
+# Install REL
+RUN pip3 install git+https://github.com/informagi/REL
+
+# Install GENRE
+WORKDIR /home/
+RUN git clone https://github.com/facebookresearch/GENRE/
+WORKDIR /home/GENRE/
+# RUN pip3 install -r requirements.txt ### Avoids Kilt issues ###
+RUN python3 setup.py install
+WORKDIR /home/
+RUN git clone https://github.com/pytorch/fairseq
+WORKDIR /home/fairseq/
+RUN pip3 install --editable ./
+RUN rm -rf /GENRE/
+
+# Install BLINK
+WORKDIR /home/
+RUN git clone https://github.com/facebookresearch/BLINK
+WORKDIR /home/BLINK/
+RUN pip3 install -r requirements.txt
+RUN python3 setup.py install
+
+RUN apt-get install sudo
+RUN groupadd LongTermGrowth
+RUN useradd LongTermGrowth -g LongTermGrowth -m -s /bin/bash
+RUN echo 'LongTermGrowth ALL=(ALL:ALL) NOPASSWD:ALL' | (EDITOR='tee -a' visudo)
+RUN echo 'LongTermGrowth:qwerty' | chpasswd
+RUN pip3 install jupyter jupyterlab==$JUPYTERLAB_VERSION
+USER LongTermGrowth
+
+RUN echo 'alias run_jpt="jupyter lab --ip=0.0.0.0" --NotebookApp.token=""  --NotebookApp.password="" ' >> ~/.bashrc
+#ENTRYPOINT ["jupyter", "lab", "--ip=0.0.0.0","--no-browser", "--allow-root", "--NotebookApp.token=''","--NotebookApp.password=''"]
