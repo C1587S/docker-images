@@ -65,5 +65,7 @@ RUN echo 'LongTermGrowth:qwerty' | chpasswd
 RUN pip3 install jupyter jupyterlab==$JUPYTERLAB_VERSION
 USER LongTermGrowth
 
-RUN echo 'alias run_jpt="jupyter lab --ip=0.0.0.0" --NotebookApp.token=""  --NotebookApp.password="" ' >> ~/.bashrc
+WORKDIR /home/shared_volume
+
+RUN echo 'alias run_jpt="jupyter lab --debug --ip=0.0.0.0 --NotebookApp.token=""  --NotebookApp.password="" ' >> ~/.bashrc
 #ENTRYPOINT ["jupyter", "lab", "--ip=0.0.0.0","--no-browser", "--allow-root", "--NotebookApp.token=''","--NotebookApp.password=''"]
