@@ -1,0 +1,14 @@
+matplotlib==3.5.3
+numpy==1.23.0
+pandas==1.4.3
+pandas-ta==0.3.14b0
+python-binance==1.0.16
+pytorch-lightning==1.7.2
+scikit-learn==1.1.2
+scipy==1.9.0
+sklearn==0.0
+tensorboard==2.10.0
+termcolor==1.1.0
+torch==1.12.1
+torchmetrics==0.9.3
+tqdm==4.64.0
